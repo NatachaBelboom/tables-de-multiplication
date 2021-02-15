@@ -1,4 +1,16 @@
+<?php
+    require('validation.php');
+    $nbvaleurs = 0;
+    $nbtables = 0;
+    $errors = [];
 
+
+    if (isset($_GET['nbvaleurs'], $_GET['nbtables'])) {
+        $old = $_GET;
+        $data = validated();
+
+    }
+?>
 <!DOCTYPE html>
 <html lang="fr-be">
 <head>
@@ -17,28 +29,37 @@
             <div class="form-group">
                 <label class="control-label" for="nbtables">Nombre de tables : </label>
                 <input class="form-control" id="nbtables" type="text" name="nbtables"
-                       value="4">
+                       value="<?= $nbtables ?>">
             </div>
             <div class="form-group">
                 <label class="control-label" for="nbvaleurs">Nombre de valeurs : </label>
                 <input class="form-control" id="nbvaleurs" type="text" name="nbvaleurs"
-                       value="6">
+                       value="<?= $nbvaleurs ?>">
             </div>
             <input type="submit">
         </form>
     </section>
+
     <section>
         <h2>Voici vos tables</h2>
         <table class="table table-striped table-bordered">
-            <caption>Les 6 premières valeurs des 4 premières tables</caption>
+            <caption>Les <?= $nbvaleurs ?> premières valeurs des <?= $nbtables ?> premières tables</caption>
             <tr>
                 <th class="vide">&nbsp;</th>
-                <th scope="col">1</th>
-                <th scope="col">2</th>
-                <th scope="col">3</th>
-                <th scope="col">4</th>
+                <?php for($cell=1; $cell<=$nbtables; $cell++): ?>
+                    <th scope="col"><?= $cell ?></th>
+                <?php endfor ?>
             </tr>
-            <tr>
+
+            <?php for($row=1; $row<=$nbvaleurs; $row++):?>
+                <tr>
+                    <th scope="row"><?= $row ?></th>
+                    <?php for($cell=1; $cell<=$nbtables; $cell++): ?>
+                        <td><?= $row ?> * <?= $cell ?> = <?= $row*$cell ?></td>
+                    <?php endfor ?>
+                </tr>
+            <?php endfor ?>
+            <!--<tr>
                 <th scope="row">1</th>
                 <td>1 * 1 = 1</td>
                 <td>1 * 2 = 2</td>
@@ -79,10 +100,9 @@
                 <td>6 * 2 = 12</td>
                 <td>6 * 3 = 18</td>
                 <td>6 * 4 = 24</td>
-            </tr>
+            </tr>-->
         </table>
     </section>
 </main>
 </body>
 </html>
-
